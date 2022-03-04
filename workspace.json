@@ -1,4 +1,7 @@
 {
   "version": 2,
-  "projects": {}
+  "projects": {
+    "game": "packages/game",
+    "state": "packages/state"
+  }
 }
