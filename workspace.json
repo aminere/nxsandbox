@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "game": "packages/game",
+    "rna": "packages/rna",
     "state": "packages/state"
   }
 }

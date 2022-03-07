@@ -18,6 +18,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nxsandbox/rna": [
+        "packages/rna/src/index.ts"
+      ],
       "@nxsandbox/state": [
         "packages/state/src/index.ts"
       ]
