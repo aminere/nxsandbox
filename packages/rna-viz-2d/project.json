@@ -1,0 +1,29 @@
+{
+  "root": "packages/rna-viz-2d",
+  "sourceRoot": "packages/rna-viz-2d/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "packages/rna-viz-2d/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/packages/rna-viz-2d"
+      ],
+      "options": {
+        "jestConfig": "packages/rna-viz-2d/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

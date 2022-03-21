@@ -3,6 +3,7 @@
   "projects": {
     "game": "packages/game",
     "rna": "packages/rna",
+    "rna-viz-2d": "packages/rna-viz-2d",
     "state": "packages/state"
   }
 }

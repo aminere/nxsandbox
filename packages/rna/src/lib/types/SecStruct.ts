@@ -21,7 +21,7 @@ export default class SecStruct {
      * @param pseudoknots If true, run through other ()-like characters too, to
      * represent pseudoknots.
      */
-    public static fromParens(str: string, pseudoknots: boolean = false): SecStruct {
+    public static fromParens(str: string, pseudoknots = false): SecStruct {
         const s = new SecStruct();
         s.setPairs(str, pseudoknots);
         return s;
@@ -208,7 +208,7 @@ export default class SecStruct {
      * @param parenthesis
      * @param pseudoknots
      */
-    public setPairs(parenthesis: string, pseudoknots: boolean = false) {
+    public setPairs(parenthesis: string, pseudoknots = false) {
         this._pairs = new Array(parenthesis.length).fill(-1);
         const pairStack: number[] = [];
 
@@ -332,7 +332,7 @@ export default class SecStruct {
      * @param pseudoknots Pseudoknots, to help look for places for [] {} <>
      */
     public getParenthesis(seq: Sequence | null = null,
-        pseudoknots: boolean = false): string {
+        pseudoknots = false): string {
         if (pseudoknots) {
             // given partner-style array, writes dot-parens notation string. handles pseudoknots!
             // example of partner-style array: '((.))' -> [4,3,-1,1,0]

@@ -21,6 +21,9 @@
       "@nxsandbox/rna": [
         "packages/rna/src/index.ts"
       ],
+      "@nxsandbox/rna-viz-2d": [
+        "packages/rna-viz-2d/src/index.ts"
+      ],
       "@nxsandbox/state": [
         "packages/state/src/index.ts"
       ]

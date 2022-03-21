@@ -7,19 +7,19 @@ enum RotationDirection {
 }
 
 export class RNATreeNode {
-    public isPair: boolean = false;
+    public isPair = false;
     public children: RNATreeNode[] = [];
 
-    public indexA: number = -1;
-    public indexB: number = -1;
+    public indexA = -1;
+    public indexB = -1;
 
-    public score: number = 0;
+    public score = 0;
 
-    public x: number = 0;
-    public y: number = 0;
+    public x = 0;
+    public y = 0;
 
-    public goX: number = 0;
-    public goY: number = 0;
+    public goX = 0;
+    public goY = 0;
 
     public rotationDirection!: RotationDirection;
 }
@@ -63,7 +63,7 @@ export class RNATreeNode {
 //    -- rhiju, 2019, reviewing/updating code that was written ages ago by someone else.
 //
 export default class RNALayout {
-    constructor(primSpace: number = 45, pairSpace: number = 45) {
+    constructor(primSpace = 45, pairSpace = 45) {
         this._primarySpace = primSpace;
         this._pairSpace = pairSpace;        
     }
@@ -186,7 +186,7 @@ export default class RNALayout {
             // FIXME: there's a bit of code duplication here, somewhat inelegant...
             //   This should be easy to unify, but why is circleRadius not updated along with circleLength?
             //    Need to think through an oligo case carefully -- rhiju
-            let circleLength: number = (xarray.length + 1) * this._primarySpace + this._pairSpace;
+            const circleLength: number = (xarray.length + 1) * this._primarySpace + this._pairSpace;
             const circleRadius: number = circleLength / (2 * Math.PI);            
 
             let lengthWalker: number = this._pairSpace / 2.0;
@@ -229,7 +229,9 @@ export default class RNALayout {
      * the target pairs in the structure.
      */
     public drawTree(): void {
-        this.drawTreeRecursive(this._root as RNATreeNode, null, 0, 0, 0, 1, RotationDirection.CW);
+        if (this._root != null) {
+            this.drawTreeRecursive(this._root as RNATreeNode, null, 0, 0, 0, 1, RotationDirection.CW);
+        }
     }
 
     private addNodesRecursive(biPairs: number[], rootnode: RNATreeNode, startIndex: number, endIndex: number): void {
@@ -350,7 +352,7 @@ export default class RNALayout {
         const crossX: number = -goY * rotationDirection;
         const crossY: number = goX * rotationDirection;
 
-        let oligoDisplacement = 0;
+        const oligoDisplacement = 0;
 
         rootnode.goX = goX;
         rootnode.goY = goY;

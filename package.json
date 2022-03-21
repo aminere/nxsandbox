@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "pixi.js": "^6.2.2",
+    "ts-events": "^3.4.1",
     "tslib": "^2.0.0"
   }
 }

@@ -27,7 +27,7 @@ export default class Sequence {
      * @param allowCut Allow a cutpoint in the sequence
      * @param allowUnknown Allow "unknown" positions in the sequence.
      */
-    public static fromSequenceString(seq: string, allowCut: boolean = true, allowUnknown: boolean = true) {
+    public static fromSequenceString(seq: string, allowCut = true, allowUnknown = true) {
         const seqArray: RNABase[] = [];
         for (const char of seq) {
             seqArray.push(EPars.stringToNucleotide(char, allowCut, allowUnknown));
@@ -291,7 +291,7 @@ export default class Sequence {
      * The first index where a cut may be found, starting at `startIdx`
      * @param startIdx Starting index for the search
      */
-    public findCut(startIdx: number = 0): number {
+    public findCut(startIdx = 0): number {
         return this._baseArray.indexOf(RNABase.CUT, startIdx);
     }
 
@@ -334,7 +334,7 @@ export default class Sequence {
         this._baseArray[ii] = rb;
     }
 
-    public sequenceString(allowCut: boolean = true, allowUnknown: boolean = true): string {
+    public sequenceString(allowCut = true, allowUnknown = true): string {
         return this._baseArray.map(
             (value) => EPars.nucleotideToString(value, allowCut, allowUnknown)
         ).join('');
@@ -354,7 +354,7 @@ export default class Sequence {
      * @param start The first index to begin slicing
      * @param end The one-past-the end index; with start === 0, doubles as len
      */
-    public slice(start: number, end: number = -1): Sequence {
+    public slice(start: number, end = -1): Sequence {
         if (end === -1) {
             return new Sequence(this._baseArray.slice(start));
         } else {

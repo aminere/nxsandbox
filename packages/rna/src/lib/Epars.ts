@@ -1,4 +1,3 @@
-import Sequence from "./types/Sequence";
 
 /**
  * These numbers can appear in a sequence: basically, ?ACGU&
@@ -17,7 +16,7 @@ export default class EPars {
         return EPars.PAIR_TYPE_MAT[a * 8 + b];
     }    
 
-    public static stringToNucleotide(value: string, allowCut: boolean = true, allowUnknown: boolean = true): number {
+    public static stringToNucleotide(value: string, allowCut = true, allowUnknown = true): number {
         if (value === 'A' || value === 'a') {
             return RNABase.ADENINE;
         } else if (value === 'G' || value === 'g') {
@@ -53,7 +52,7 @@ export default class EPars {
         return '';
     }
 
-    public static nucleotideToString(value: number, allowCut: boolean = true, allowUnknown: boolean = true): string {
+    public static nucleotideToString(value: number, allowCut = true, allowUnknown = true): string {
         if (value === RNABase.ADENINE) {
             return 'A';
         } else if (value === RNABase.URACIL) {
