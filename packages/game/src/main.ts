@@ -36,19 +36,18 @@ const rna = computeRNA(state.getProperty("pairs"), state.getProperty("bases"));
 console.log({rna});
 
 // TODO belongs in RNA viz 2d
-function drawRNA(rna: IRNA, container: PIXI.Container) {
-  function getBaseTexture(base: RNABase) {
-    switch (base) {
-      case RNABase.URACIL: return "assets/new_big_blue.png";
-      case RNABase.CYTOSINE: return "assets/new_big_green.png";
-      case RNABase.GUANINE: return "assets/new_big_red.png";
-      default: return "assets/new_big_yellow.png";
-    }
+function getBaseTexture(base: RNABase) {
+  switch (base) {
+    case RNABase.URACIL: return "assets/new_big_blue.png";
+    case RNABase.CYTOSINE: return "assets/new_big_green.png";
+    case RNABase.GUANINE: return "assets/new_big_red.png";
+    default: return "assets/new_big_yellow.png";
   }
+}
 
+function drawRNA(rna: IRNA, container: PIXI.Container) {
   container.removeChildren();
   for (let i = 0; i < rna.sequence.length; ++i) {
-
     const texture = getBaseTexture(rna.sequence.baseArray[i]);
     const baseSprite = new PIXI.Sprite(PIXI.Texture.from(texture));
     baseSprite.x = rna.xarray[i]; // - baseSprite.getBounds().width / 2;
@@ -58,7 +57,11 @@ function drawRNA(rna: IRNA, container: PIXI.Container) {
     baseSprite.on("pointerdown", e => {
       const bases = State.instance.getProperty("bases").slice();
       bases[i] = 4;
-      State.instance.setProperty("bases", bases);
+      State.instance.setProperty("bases", bases);      
+      
+      const pairs = State.instance.getProperty("bases").slice();
+      pairs[0] = Math.round(Math.random() * 10);
+      State.instance.setProperty("pairs", pairs);
       e.stopPropagation();
     });
 
@@ -81,8 +84,31 @@ State.instance.onPropertyChanged.attach(data => {
     case "pairs":
       {
         const rna = computeRNA(state.getProperty("pairs"), state.getProperty("bases"));
-        console.log({rna});
-        drawRNA(rna, container);
+        const from = Array.from(new Array(rna.sequence.length)).map((_, i) => [container.getChildAt(i).x, container.getChildAt(i).y]);
+
+        // Animate RNA
+        const ticker = new PIXI.Ticker();
+        let time = 0;
+        let progress = 0;
+        let done = false;
+        ticker.add(() => {          
+          time += ticker.deltaMS / 1000;
+          progress = time;
+          if (progress > 1) {
+            progress = 1;
+            done = true;
+          }
+          for (let i = 0; i < rna.sequence.length; ++i) {
+            const sprite = container.getChildAt(i);
+            sprite.x = from[i][0] + (rna.xarray[i] - from[i][0]) * progress;
+            sprite.y = from[i][1] + (rna.yarray[i] - from[i][1]) * progress;
+          }
+          if (done) {
+            ticker.destroy();
+          }
+        });
+        ticker.start();
+        //drawRNA(rna, container);
       }
       break;
   }
@@ -93,21 +119,6 @@ app.renderer.plugins.interaction.on("pointerdown", (e: PIXI.InteractionEvent) =>
     return;
   }
 });
-
-// Animate RNA
-// const ticker = new PIXI.Ticker();
-// let time = 0;
-// let progress = 0;
-// ticker.add(() => {
-//   time += ticker.deltaMS / 1000;
-//   progress = Math.abs(Math.sin(time));
-//   for (let i = 0; i < sequence.length; ++i) {
-//     const sprite = container.getChildAt(i);
-//     sprite.x = xarray[i] * progress - sprite.getBounds().width / 2;
-//     sprite.y = yarray[i] * progress - sprite.getBounds().height / 2;
-//   }
-// });
-// ticker.start();
 
 // Bee
 // const bee = new PIXI.Sprite(PIXI.Texture.from("assets/bee_dynamic.svg"));
