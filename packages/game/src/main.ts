@@ -91,9 +91,9 @@ State.instance.onPropertyChanged.attach(data => {
         let time = 0;
         let progress = 0;
         let done = false;
-        ticker.add(() => {          
+        ticker.add(() => {            
           time += ticker.deltaMS / 1000;
-          progress = time;
+          progress = time * 2;
           if (progress > 1) {
             progress = 1;
             done = true;
@@ -114,10 +114,56 @@ State.instance.onPropertyChanged.attach(data => {
   }
 });
 
+
+let pressed = false;
+const touchStart = new PIXI.Point();
+const cameraStartOffset = new PIXI.Point();
+let cameraZoom = 1;
+
 app.renderer.plugins.interaction.on("pointerdown", (e: PIXI.InteractionEvent) => {
   if (e.stopped) {
     return;
   }
+  touchStart.copyFrom(e.data.global);
+  cameraStartOffset.copyFrom(app.stage.position);
+  pressed = true;
+});
+
+app.renderer.plugins.interaction.on("pointermove", (e: PIXI.InteractionEvent) => {
+  if (e.stopped) {
+    return;
+  }
+  if (pressed) {
+    const dx = e.data.global.x - touchStart.x;
+    const dy = e.data.global.y - touchStart.y;
+    app.stage.position.set(
+      cameraStartOffset.x + dx,
+      cameraStartOffset.y + dy,
+    );
+  }
+});
+
+app.renderer.plugins.interaction.on("pointerup", (e: PIXI.InteractionEvent) => {
+  if (e.stopped) {
+    return;
+  }
+  if (pressed) {
+    pressed = false;
+  }
+});
+
+window.addEventListener("wheel", e => {
+  const deltaZoom = e.deltaY * .001;
+  cameraZoom += deltaZoom;
+  app.stage.scale.set(cameraZoom, cameraZoom);
+
+  // const dx = app.renderer.width * deltaZoom / 2;
+  // const dy = app.renderer.height * deltaZoom / 2;
+  // console.log(dx, dy);
+  // app.stage.position.set(
+  //   app.stage.position.x + dx,
+  //   app.stage.position.y + dy 
+  // )
 });
 
 // Bee
